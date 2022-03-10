@@ -4,7 +4,7 @@
 
 ## 实验环境
 
-![image-20220309114947470](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220309114947470.png)
+![image-20220309114947470](C:\Users\dell\learngit\images\image-20220309114947470.png)
 
 ## 1每个权能对应的系统调用和功能
 
@@ -100,15 +100,15 @@ CAP_AUDIT_READ       37  /* 允许通过一个多播netlink socket读取审计�
 
 - 添加新用户userping
 
-![image-20220309115234418](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220309115234418.png)
+![image-20220309115234418](C:\Users\dell\learngit\images\image-20220309115234418.png)
 
 - 先ping一下得知正常使用
 
-![image-20220309115313885](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220309115313885.png)
+![image-20220309115313885](C:\Users\dell\learngit\images\image-20220309115313885.png)
 
 - 此时查看`/bin/ping`的权能，可知此时具有cap_net_raw权能
 
-![image-20220309115345576](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220309115345576.png)
+![image-20220309115345576](C:\Users\dell\learngit\images\image-20220309115345576.png)
 
 - 以root权限使用命令
 
@@ -120,7 +120,7 @@ CAP_AUDIT_READ       37  /* 允许通过一个多播netlink socket读取审计�
 - 消除ping命令的权能和setuid位，再次尝试ping操作，此时无法成功
 
 
-  ![image-20220309115506299](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220309115506299.png)
+  ![image-20220309115506299](C:\Users\dell\learngit\images\image-20220309115506299.png)
 
   
 
@@ -129,7 +129,7 @@ CAP_AUDIT_READ       37  /* 允许通过一个多播netlink socket读取审计�
 
 
 
-  ![image-20220309115550934](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220309115550934.png)
+  ![image-20220309115550934](C:\Users\dell\learngit\images\image-20220309115550934.png)
 
   
 
@@ -138,26 +138,26 @@ CAP_AUDIT_READ       37  /* 允许通过一个多播netlink socket读取审计�
 - 在`/usr/local/bin/`目录下新建`ping_cap.sh`脚本文件，实现功能：当why1用户登录时，给/bin/ping添加权能，当用户退出时自动执行清除`/bin/ping`的权能，以避免其余用户仍可执行ping命令
 
 
-  ![image-20220309134614634](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220309134614634.png)
+  ![image-20220309134614634](C:\Users\dell\learngit\images\image-20220309134614634.png)
 
 -   通过`chmod u+x /usr/local/bin/ping_cap.sh`设为可执行：
 
 
-  ![image-20220309120728228](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220309120728228.png)
+  ![image-20220309120728228](C:\Users\dell\learngit\images\image-20220309120728228.png)
 
   
 
 -   查阅[资料](https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-pam.html#sec-security-pam-whatis)可知登录操作要用到`common-session`，当用户登录和注销时会调用`session` 模块（bundled in the `common-session` file）
 
 
-  ![image-20220309121202622](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220309121202622.png)
+  ![image-20220309121202622](C:\Users\dell\learngit\images\image-20220309121202622.png)
 
   
 
 -   于是找到 PAM 相关配置文件所在目录`/etc/pam.d`
 
 
-  ![image-20220309140144634](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220309140144634.png)
+  ![image-20220309140144634](C:\Users\dell\learngit\images\image-20220309140144634.png)
 
 -   在该目录下的文件common-session中添加如下规则：
 
@@ -186,12 +186,12 @@ CAP_AUDIT_READ       37  /* 允许通过一个多播netlink socket读取审计�
 -   此时登录用户why测试ping命令发现无法成功，而切换用户why1后发现可以ping通
 
 
-  ![image-20220309142012519](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220309142012519.png)
+  ![image-20220309142012519](C:\Users\dell\learngit\images\image-20220309142012519.png)
 
 -   查看`pam_exec`日志，可看出成功打印日志信息
 
 
-  ![image-20220309142133678](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220309142133678.png)
+  ![image-20220309142133678](C:\Users\dell\learngit\images\image-20220309142133678.png)
 
   
 
@@ -215,11 +215,11 @@ CAP_AUDIT_READ       37  /* 允许通过一个多播netlink socket读取审计�
 
   2、在使用ubuntu20.04时，在取消`/bin/ping`的权能后发现仍可ping通
 
-![image-20220307213612011](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220307213612011.png)
+![image-20220307213612011](C:\Users\dell\learngit\images\image-20220307213612011.png)
 
 - 此时查看/bin/ping的权限信息，并去掉s位，尝试ping发现仍可ping通
 
-![image-20220307213938946](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220307213938946.png)
+![image-20220307213938946](C:\Users\dell\learngit\images\image-20220307213938946.png)
 
 - 这个问题参考了[Linux: Why am I able to use ping if neither SETUID nor Capabilities are set?](https://stackoverflow.com/questions/63177554/linux-why-am-i-able-to-use-ping-if-neither-setuid-nor-capabilities-are-set)
 
