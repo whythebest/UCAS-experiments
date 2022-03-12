@@ -242,6 +242,7 @@ chmod u+x /usr/local/bin/cap.sh
 ####   2.3 验证基于PAM的用户权能分配
 
 - 查看相应的S位是否取消
+![验证S位取消](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/%E9%AA%8C%E8%AF%81S%E4%BD%8D%E5%8F%96%E6%B6%88.png)
 - 登录用户why查看相应权能，并进行`ping`与`passwd`操作
 
 ![image-20220312134044026](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/%E7%94%A8%E6%88%B7why%E6%93%8D%E4%BD%9C.png)
