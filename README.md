@@ -2,7 +2,7 @@
 
 ## 实验环境
 
-![image-20220309114947470](C:\Users\dell\AppData\Roaming\Typora\typora-user-images\image-20220309114947470.png)
+![image-20220309114947470](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83.png)
 
 ## 1每个权能对应的系统调用和功能
 
@@ -146,7 +146,7 @@ adduser only_passwd
 cat/etc/passwd
 ```
 
-![用户](F:\1\1研一内容\春季学期\操作系统安全\images\用户.png)
+![用户](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/%E7%94%A8%E6%88%B7.png)
 
 - 检查所有具有setuid位的命令
 
@@ -156,9 +156,9 @@ find / -perm -4000 –ls 2>    /dev/null
 
 下面列出部分文件
 
-![s位2](F:\1\1研一内容\春季学期\操作系统安全\images\s位2.png)
+![s位2](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/s%E4%BD%8D2.png)
 
-![s位1](F:\1\1研一内容\春季学期\操作系统安全\images\s位1.png)
+![s位1](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/s%E4%BD%8D1.png)
 
 
 
@@ -182,11 +182,11 @@ setcap -r /usr/bin/passwd
 
 ping操作测试：
 
-  ![image-20220309115550934](F:\1\1研一内容\春季学期\操作系统安全\images\取消S位和权能后测试ping.png)
+  ![image-20220309115550934](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/%E5%8F%96%E6%B6%88S%E4%BD%8D%E5%92%8C%E6%9D%83%E8%83%BD%E5%90%8E%E6%B5%8B%E8%AF%95ping.png)
 
 passwd操作测试：
 
-![取消S位和权能后测试passwd1](F:\1\1研一内容\春季学期\操作系统安全\images\取消S位和权能后测试passwd1.png)![取消S位和权能后测试passwd2](F:\1\1研一内容\春季学期\操作系统安全\images\取消S位和权能后测试passwd2.png)
+![取消S位和权能后测试passwd1](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/%E5%8F%96%E6%B6%88S%E4%BD%8D%E5%92%8C%E6%9D%83%E8%83%BD%E5%90%8E%E6%B5%8B%E8%AF%95passwd1.png)![取消S位和权能后测试passwd2](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/%E5%8F%96%E6%B6%88S%E4%BD%8D%E5%92%8C%E6%9D%83%E8%83%BD%E5%90%8E%E6%B5%8B%E8%AF%95passwd2.png)
 
   #### 2.2 使用脚本实现：根据用户名，登陆前赋予该用户相应权能。
 
@@ -197,7 +197,7 @@ passwd操作测试：
 3. 当用户退出时自动执行清除指定的权能，以避免其余用户仍可执行相关命令
 
 
-  ![image-20220309134614634](F:\1\1研一内容\春季学期\操作系统安全\images\shell.png)
+  ![image-20220309134614634](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/shell.png)
 
 -   将cap.sh文件设为可执行：
 
@@ -208,14 +208,14 @@ chmod u+x /usr/local/bin/cap.sh
 -   查阅[资料](https://documentation.suse.com/sles/12-SP4/html/SLES-all/cha-pam.html#sec-security-pam-whatis)可知登录操作要用到`common-session`，当用户登录和注销时会调用`session` 模块（bundled in the `common-session` file）
 
 
-  ![image-20220309121202622](F:\1\1研一内容\春季学期\操作系统安全\images\common-session.png)
+  ![image-20220309121202622](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/common-session.png)
 
   
 
 -   找到 PAM 相关配置文件所在目录`/etc/pam.d`
 
 
-  ![image-20220309140144634](F:\1\1研一内容\春季学期\操作系统安全\images\pam.d配置文件目录.png)
+  ![image-20220309140144634](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/pam.d%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95.png)
 
 -   在该目录下的文件common-session中添加如下规则：
 
@@ -244,20 +244,20 @@ chmod u+x /usr/local/bin/cap.sh
 - 查看相应的S位是否取消
 - 登录用户why查看相应权能，并进行`ping`与`passwd`操作
 
-![image-20220312134044026](F:\1\1研一内容\春季学期\操作系统安全\images\用户why操作.png)
+![image-20220312134044026](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/%E7%94%A8%E6%88%B7why%E6%93%8D%E4%BD%9C.png)
 
 - 登录用户`only_ping`查看`/bin/ping`与`/usr/bin/passwd`权能并进行`ping`与`passwd`操作
 
-![only_ping用户操作](F:\1\1研一内容\春季学期\操作系统安全\images\only_ping用户操作.png)
+![only_ping用户操作](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/only_ping%E7%94%A8%E6%88%B7%E6%93%8D%E4%BD%9C.png)
 
 - 登录用户`only_passwd`查看`/bin/ping`与`/usr/bin/passwd`权能并进行`ping`与`passwd`操作
 
-![only_passwd用户操作](F:\1\1研一内容\春季学期\操作系统安全\images\only_passwd用户操作.png)
+![only_passwd用户操作](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/only_passwd%E7%94%A8%E6%88%B7%E6%93%8D%E4%BD%9C.png)
 
 -   查看`pam_exec`日志
 
 
-  ![image-20220309142133678](F:\1\1研一内容\春季学期\操作系统安全\images\日志信息.png)
+  ![image-20220309142133678](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/%E6%97%A5%E5%BF%97%E4%BF%A1%E6%81%AF.png)
 
   
 
@@ -283,11 +283,11 @@ chmod u+x /usr/local/bin/cap.sh
 
   2、在使用ubuntu20.04时，在取消`/bin/ping`的权能后发现仍可ping通
 
-![image-20220307213612011](F:\1\1研一内容\春季学期\操作系统安全\images\注意事项1.png)
+![image-20220307213612011](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B91.png)
 
 - 此时查看/bin/ping的权限信息，并去掉s位，尝试ping发现仍可ping通
 
-![image-20220307213938946](F:\1\1研一内容\春季学期\操作系统安全\images\注意事项2.png)
+![image-20220307213938946](https://raw.githubusercontent.com/whythebest/UCAS-courseexperiment/master/images/%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B92.png)
 
 - 这个问题参考了[Linux: Why am I able to use ping if neither SETUID nor Capabilities are set?](https://stackoverflow.com/questions/63177554/linux-why-am-i-able-to-use-ping-if-neither-setuid-nor-capabilities-are-set)
 
