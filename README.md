@@ -9,17 +9,17 @@
 - 整理自[man capabilities](https://man7.org/linux/man-pages/man7/capabilities.7.html)
 
 ```c
-权能 (列出43条)                              系统调用以及功能
+权能 (列出41条)                              系统调用以及功能
 
 CAP_CHOWN             /* 系统调用：chown，对文件的UID和GID做任意的修改 */
 
-CAP_DAC_OVERRIDE       /* 绕过文件读取、写入和执行权限检查.（DAC是“discretionary access control”的缩写。） */
+CAP_DAC_OVERRIDE      /* 绕过文件读取、写入和执行权限检查.（DAC是“discretionary access control”的缩写。） */
 
-CAP_DAC_READ_SEARCH    /* 绕过文件读取权限检查和目录读取并执行权限检查*/
+CAP_DAC_READ_SEARCH   /* 绕过文件读取权限检查和目录读取并执行权限检查*/
 
-CAP_FOWNER             /* 忽略进程UID与文件UID的匹配检查 */
+CAP_FOWNER            /* 忽略进程UID与文件UID的匹配检查 */
 
-CAP_FSETID             /* 修改文件时不清除 set-user-ID 和 set-group-ID 模式位；为其 GID 与文件系统或调用进程的任何补充 GID 不匹配的文件设置 set-group-ID 位。 */
+CAP_FSETID            /* 修改文件时不清除 set-user-ID 和 set-group-ID 模式位；为其 GID 与文件系统或调用进程的任何补充 GID 不匹配的文件设置 set-group-ID 位。 */
 
 CAP_KILL              /* 系统调用：kill，绕过发送信号时的权限检查，允许对不属于自己的进程发送信号 */
 
@@ -27,11 +27,11 @@ CAP_SETGID            /* 系统调用：setgid，设置和管理进程GID */
 
 CAP_SETUID            /* 系统调用：setuid，设置和管理进程UID */
 
-CAP_SETPCAP          /* 系统调用：capset，如果支持文件功能（即，从 Linux2.6.24 开始）：将调用线程边界集中的任何功能添加到其可继承集； 从边界集中删除能力； 更改安全位标志。
+CAP_SETPCAP           /* 系统调用：capset，如果支持文件功能（即，从 Linux2.6.24 开始）：将调用线程边界集中的任何功能添加到其可继承集； 从边界集中删除能力； 更改安全位标志。
     如果不支持文件功能（即 Linux 2.6.24 之前的内核）：将调用者允许的功能集中的任何功能授予或删除任何其他进程。 （当内核配置为支持文件功能时，CAP_SETPCAP 的此属性不可用，因为 CAP_SETPCAP 对于此类内核具有完全不同的语义。）*/
-CAP_SETFCAP          
+CAP_SETFCAP           /*(since Linux 2.6.24)设置文件权能 */        
 
-CAP_LINUX_IMMUTABLE  /* 系统调用：chattr，允许设置文件的不可修改位(IMMUTABLE)和只添加(APPEND-ONLY)属性 */
+CAP_LINUX_IMMUTABLE   /* 系统调用：chattr，允许设置文件的不可修改位(IMMUTABLE)和只添加(APPEND-ONLY)属性 */
 
 CAP_NET_BIND_SERVICE  /* 允许绑定到小于1024的端口，普通用户不能通过bind函数绑定到小于1024的端口，而CAP_NET_BIND_SERVICE可以让普通用户也可以绑定端口到1024以下 */
 
@@ -79,8 +79,6 @@ CAP_AUDIT_WRITE       /*(since Linux 2.6.11) 将记录写入内核审计日志�
 
 CAP_AUDIT_CONTROL     /*(since Linux 2.6.11) 启动或禁用内核审计，修改审计过滤器规则；检索审核状态和过滤规则。*/
 
-CAP_SETFCAP           /*(since Linux 2.6.24)设置文件权能 */
-
 CAP_MAC_OVERRIDE      /*(since Linux 2.6.25)覆盖强制访问控制 (MAC)。实施为Smack LSM。 */
 
 CAP_MAC_ADMIN         /*(since Linux 2.6.25)允许 MAC 配置或状态更改。为 Smack Linux 安全模块 (LSM) 实施。 */
@@ -90,8 +88,6 @@ CAP_SYSLOG            /*(since Linux 2.6.37) 系统调用：syslog，执行特�
 CAP_WAKE_ALARM        /*(since Linux 3.0) 触发将唤醒系统的东西(设置 CLOCK_REALTIME_ALARM 和 CLOCK_BOOTTIME_ALARM 定时器) */ 
 
 CAP_BLOCK_SUSPEND     /*(since Linux 3.5)系统调用：epoll，可以阻塞系统挂起的特性 */
-
-CAP_AUDIT_READ        /* 允许通过一个多播netlink socket读取审计日志 */
     
 CAP_PERFMON           /*(since Linux 5.8)采用各种性能监控机制，包含：
                          * 调用perf_event_open(2)；
@@ -268,7 +264,7 @@ chmod u+x /usr/local/bin/cap.sh
 
 ## 3实验总结
 
-​		实验基本实现了基于PAM的用户权能分配，实验选择了对`/bin/ping`与`/usr/bin/passwd`的权能的操作进行验证。当用户why登录时，其不具有相应权能而无法进行`ping`与`passwd`操作，而当登录用户为`only_ping`时赋予`/bin/ping`以相应的CAP_NET_RAW权能，经验证该用户仅被分配指定权能，只可进行`ping`操作;相应的是当登录用户为`only_passwd`时赋予`/usr/bin/passwd`以相应的CAP_CHOWN ,CAP_DAC_OVERRIDE, CAP_FOWNER权能，经验证该用户仅被分配指定权能，只可进行`passwd`操作;实验的debug信息均被打印到临时文件夹`/tmp`的pam.exec.log中，但显示仍有部分报错，此报错不影响相应权能分配功能的实现。
+​		实验基本实现了基于PAM的用户权能分配，实验选择了对`/bin/ping`与`/usr/bin/passwd`的权能的操作进行验证, 利用了PAM的pam_exec模块来执行外部命令，进而为特定用户赋予相应权能，从而使得特定用户能够操作相应命令。当用户why登录时，其不具有相应权能而无法进行`ping`与`passwd`操作，而当登录用户为`only_ping`时赋予`/bin/ping`以相应的CAP_NET_RAW权能，经验证该用户仅被分配指定权能，只可进行`ping`操作;相应的是当登录用户为`only_passwd`时赋予`/usr/bin/passwd`以相应的CAP_CHOWN ,CAP_DAC_OVERRIDE, CAP_FOWNER权能，经验证该用户仅被分配指定权能，只可进行`passwd`操作;实验的debug信息均被打印到临时文件夹`/tmp`的pam.exec.log中，但显示仍有部分报错，此报错不影响相应权能分配功能的实现。
 
   ## 注意事项
 
